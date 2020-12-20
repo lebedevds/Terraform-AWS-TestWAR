@@ -15,6 +15,7 @@ resource "aws_instance" "build" {
   key_name = "MyKeyPair"
 
 connection {
+  type = "ssh"
   user = "ubuntu"
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
   agent = true
@@ -43,6 +44,7 @@ resource "aws_instance" "app" {
   key_name = "MyKeyPair"
   vpc_security_group_ids = [aws_security_group.my-secgroup.id]
   connection {
+  type = "ssh"
   user = "ubuntu"
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
   agent = true
