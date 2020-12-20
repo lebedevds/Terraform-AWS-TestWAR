@@ -17,7 +17,7 @@ resource "aws_instance" "build" {
 connection {
   type = "ssh"
   user = "ubuntu"
-  private_key = "${file("/home/ubuntu/.ssh/MyKeyPair.pem")}"
+  private_key = file("/home/ubuntu/.ssh/MyKeyPair.pem")
   agent = false
   timeout = "3m"
   host = aws_instance.build.public_ip
@@ -46,7 +46,7 @@ resource "aws_instance" "app" {
   connection {
   type = "ssh"
   user = "ubuntu"
-  private_key = "${file("/home/ubuntu/.ssh/MyKeyPair.pem")}"
+  private_key = file("/home/ubuntu/.ssh/MyKeyPair.pem")
   agent = false
   timeout = "3m"
   host = aws_instance.app.public_ip
