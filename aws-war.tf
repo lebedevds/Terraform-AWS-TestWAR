@@ -27,7 +27,7 @@ provisioner "remote-exec" {
   inline = [<<EOF
 sudo apt-get update
 sudo apt-get install git default-jdk maven -y
-cd /tmp/ && git clone https://github.com/lebedevds/test-webapp.git && maven package -f ./test-webapp/pom.xml
+git clone https://github.com/lebedevds/test-webapp.git && mvn package -f ./test-webapp
 EOF
 ]
 }
