@@ -5,6 +5,9 @@ provider "aws" {
 resource "aws_instance" "build" {
   ami = "ami-0dd9f0e7df0f0a138"
   instance_type = "t2.micro"
+  tags = {
+    Name = "build"
+  }
   subnet_id = "subnet-421eb929"
   depends_on = [aws_instance.app]
   vpc_security_group_ids = [
@@ -16,6 +19,7 @@ connection {
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
   agent = true
   timeout = "3m"
+  host = [aws_instance.build.public_ip]
 }
 
 provisioner "remote-exec" {
@@ -32,9 +36,27 @@ EOF
 resource "aws_instance" "app" {
   ami = "ami-0dd9f0e7df0f0a138"
   instance_type = "t2.micro"
+  tags = {
+    Name ="app"
+  }
   subnet_id = "subnet-421eb929"
   key_name = "MyKeyPair"
   vpc_security_group_ids = [aws_security_group.my-secgroup.id]
+  connection {
+  user = "ubuntu"
+  private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
+  agent = true
+  timeout = "3m"
+  host = [aws_instance.app.public_ip]
+}
+
+provisioner "remote-exec" {
+  inline = [<<EOF
+sudo apt-get update
+sudo apt-get install tomcat9 -y
+EOF
+]
+}
 
 }
 
