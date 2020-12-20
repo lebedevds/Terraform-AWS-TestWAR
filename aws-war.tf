@@ -19,7 +19,7 @@ connection {
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
   agent = true
   timeout = "3m"
-  host = [aws_instance.build.public_ip]
+  host = aws_instance.build.public_ip
 }
 
 provisioner "remote-exec" {
@@ -47,7 +47,7 @@ resource "aws_instance" "app" {
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
   agent = true
   timeout = "3m"
-  host = [aws_instance.app.public_ip]
+  host = aws_instance.app.public_ip
 }
 
 provisioner "remote-exec" {
