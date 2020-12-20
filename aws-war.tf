@@ -18,7 +18,7 @@ connection {
   type = "ssh"
   user = "ubuntu"
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
-  agent = true
+  agent = false
   timeout = "3m"
   host = aws_instance.build.public_ip
 }
@@ -47,7 +47,7 @@ resource "aws_instance" "app" {
   type = "ssh"
   user = "ubuntu"
   private_key = "/home/ubuntu/.ssh/MyKeyPair.pem"
-  agent = true
+  agent = false
   timeout = "3m"
   host = aws_instance.app.public_ip
 }
