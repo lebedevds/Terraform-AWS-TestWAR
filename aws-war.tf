@@ -26,8 +26,7 @@ connection {
 
 provisioner "remote-exec" {
   inline = [<<EOF
-sudo apt-get update
-sudo apt-get install git default-jdk maven awscli -y
+sudo apt-get update && apt-get install git default-jdk maven awscli -y
 cd /tmp/ && git clone https://github.com/lebedevds/test-webapp.git && mvn package -f ./test-webapp
 aws s3 cp ./target/hello-1.0.war s3://mybacket1.test5.com/
 EOF
