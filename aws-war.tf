@@ -30,7 +30,7 @@ sudo apt install maven -y
 sudo apt install awscli -y
 export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY=
-AWS_DEFAULT_REGION=
+export AWS_DEFAULT_REGION=
 cd /tmp/ && git clone https://github.com/lebedevds/test-webapp.git && mvn package -f /tmp/test-webapp/pom.xml
 aws s3 cp /tmp/test-webapp/target/hello-1.0.war s3://mybacket1.test5.com/ --acl public-read
 EOF
