@@ -12,7 +12,6 @@ resource "aws_instance" "build" {
   vpc_security_group_ids = [
     aws_security_group.my-secgroup.id]
   key_name = "MyKeyPair"
-#  user_data = file("./key.sh")
 
 connection {
   type = "ssh"
@@ -29,11 +28,11 @@ sudo apt update
 sudo apt install git default-jdk -y
 sudo apt install maven -y
 sudo apt install awscli -y
-export AWS_ACCESS_KEY_ID=var.aws_key
-export AWS_SECRET_ACCESS_KEY=var.aws_sec_key
-export AWS_SECRET_ACCESS_KEY=var.aws_reg
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=
 cd /tmp/ && git clone https://github.com/lebedevds/test-webapp.git && mvn package -f /tmp/test-webapp/pom.xml
-aws s3 cp /tmp/test-webapp/target/hello-1.0.war s3://mybacket1.test5.com/
+aws s3 cp /tmp/test-webapp/target/hello-1.0.war s3://mybacket1.test5.com/ --acl public-read
 EOF
 ]
 }
@@ -83,6 +82,18 @@ ingress {
 ingress {
   from_port   = 22
   to_port     = 22
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+ingress {
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+}
+ingress {
+  from_port   = 443
+  to_port     = 443
   protocol    = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
 }
