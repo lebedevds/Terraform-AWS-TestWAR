@@ -9,7 +9,6 @@ resource "aws_instance" "build" {
     Name = "build"
   }
   subnet_id = "subnet-421eb929"
-  depends_on = [aws_instance.app]
   vpc_security_group_ids = [
     aws_security_group.my-secgroup.id]
   key_name = "MyKeyPair"
@@ -46,6 +45,7 @@ resource "aws_instance" "app" {
   }
   subnet_id = "subnet-421eb929"
   key_name = "MyKeyPair"
+  depends_on = [aws_instance.build]
   vpc_security_group_ids = [aws_security_group.my-secgroup.id]
   connection {
   type = "ssh"
