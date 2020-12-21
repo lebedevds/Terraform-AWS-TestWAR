@@ -12,7 +12,7 @@ resource "aws_instance" "build" {
   vpc_security_group_ids = [
     aws_security_group.my-secgroup.id]
   key_name = "MyKeyPair"
-  user_data = file("./key.sh")
+#  user_data = file("./key.sh")
 
 connection {
   type = "ssh"
@@ -29,6 +29,9 @@ sudo apt update
 sudo apt install git default-jdk -y
 sudo apt install maven -y
 sudo apt install awscli -y
+export AWS_ACCESS_KEY_ID=var.aws_key
+export AWS_SECRET_ACCESS_KEY=var.aws_sec_key
+export AWS_SECRET_ACCESS_KEY=var.aws_reg
 cd /tmp/ && git clone https://github.com/lebedevds/test-webapp.git && mvn package -f /tmp/test-webapp/pom.xml
 aws s3 cp /tmp/test-webapp/target/hello-1.0.war s3://mybacket1.test5.com/
 EOF
@@ -60,6 +63,8 @@ provisioner "remote-exec" {
   inline = [<<EOF
 sudo apt update
 sudo apt install tomcat9 -y
+cd /var/lib/tomcat9/webapps/
+wget https://s3.us-east-2.amazonaws.com/mybacket1.test5.com/hello-1.0.war
 EOF
 ]
 }
